@@ -11,7 +11,7 @@ struct ListNode
 {
     int data;
     struct ListNode* next;
-    
+     
     ListNode(int x){
         data = x;
         next = NULL;
