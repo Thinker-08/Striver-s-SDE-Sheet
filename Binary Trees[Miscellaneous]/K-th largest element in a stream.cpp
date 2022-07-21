@@ -1,27 +1,16 @@
-priority_queue<int, vector<int>, greater<int>> pq;
-    int n;
+int cc;
+    priority_queue<int,vector<int>,greater<int>> pq;
     KthLargest(int k, vector<int>& nums) {
-        n = k;
-        for(auto const &i: nums) {
-            if(pq.size() < k) {
-                pq.push(i);
-            } else {
-                if(pq.top() < i) {
-                    pq.pop();
-                    pq.push(i);
-                }
-            }
-        }
+        cc=k;
+        for(int i=0;i<nums.size();i++)
+            pq.push(nums[i]);
+        while(pq.size()>k)
+            pq.pop();
     }
     
     int add(int val) {
-         if(pq.size() < n) {
-            pq.push(val);
-        } else {
-            if(pq.top() < val) {
-                pq.pop();
-                pq.push(val);
-            }
-        }
+        pq.push(val);
+        while(pq.size()>cc)
+            pq.pop();
         return pq.top();
     }
