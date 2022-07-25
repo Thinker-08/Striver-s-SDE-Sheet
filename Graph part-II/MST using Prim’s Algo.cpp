@@ -16,45 +16,30 @@ int main(){
 	adj[3].push_back({1,8});
 	adj[4].push_back({1,5});
 	adj[4].push_back({2,7});
-
-
-
-	
-	
-    int parent[N]; 
-      
-    int key[N]; 
-      
-    bool mstSet[N]; 
-  
+    int parent[N];   
+    int distance[N]; 
+    bool visited[N]; 
     for (int i = 0; i < N; i++) 
-        key[i] = INT_MAX, mstSet[i] = false; 
-    
+        distance[i] = INT_MAX, visited[i] = false; 
     priority_queue< pair<int,int>, vector <pair<int,int>> , greater<pair<int,int>> > pq;
-
-    key[0] = 0; 
+    distance[0] = 0; 
     parent[0] = -1; 
     pq.push({0, 0});
-
     while(!pq.empty())
     { 
         int u = pq.top().second; 
-        pq.pop(); 
-        
-        mstSet[u] = true; 
-        
-        for (auto it : adj[u]) {
-            int v = it.first;
-            int weight = it.second;
-            if (mstSet[v] == false && weight < key[v]) {
-                parent[v] = u;
-	    key[v] = weight; 
-                pq.push({key[v], v});    
+        pq.pop();     
+        visited[u] = true; 
+        for (auto it : adj[u])
+        {
+            if (visited[it.first] == false && it.second < distance[it.first])
+            {
+                parent[it.first] = u;
+	            distance[it.first] = it.second; 
+                pq.push({distance[it.first], it.first});    
             }
-        }
-            
+        }      
     } 
-    
     for (int i = 1; i < N; i++) 
         cout << parent[i] << " - " << i <<" \n"; 
 	return 0;
