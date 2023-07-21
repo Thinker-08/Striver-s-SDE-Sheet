@@ -1,30 +1,27 @@
-bool check(vector<int> &stack,vector<int> &vis,int vertex,vector<vector<int>> &v)
+bool check(int vertex, vector<int> &vis, vector<vector<int>> &adj, vector<int> &path_vis)
     {
-        stack[vertex]=1;
-        if(!vis[vertex])
+        path_vis[vertex] = 1;
+        vis[vertex]=1;
+        bool flag=false;
+        for(auto it: adj[vertex])
         {
-            vis[vertex]=1;
-            for(auto child:v[vertex])
-            {
-                if(!vis[child] and check(stack,vis,child,v))
-                    return true;
-                if(stack[child])
-                    return true;
-            }
+            if(vis[it] and path_vis[it])
+                return true;
+            if(vis[it])
+                continue;
+            flag |= check(it, vis, adj, path_vis);
         }
-        stack[vertex]=0;
-        return false;
+        path_vis[vertex]=0;
+        return flag;
     }
-    bool canFinish(int V, vector<vector<int>>& pre)
-    {
-        vector<vector<int>> v(V);
+    bool canFinish(int num, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(num);
         for(int i=0;i<pre.size();i++)
-            v[pre[i][1]].push_back(pre[i][0]);
-        vector<int> stack(V,0);
-        vector<int> vis(V,0);
-        for(int i=0;i<V;i++)
+            adj[pre[i][1]].push_back(pre[i][0]);
+        vector<int> path_vis(num), vis(num);
+        for(int i=0;i<num;i++)
         {
-            if(!vis[i] and check(stack,vis,i,v))
+            if(check(i, vis, adj, path_vis))
                 return false;
         }
         return true;
