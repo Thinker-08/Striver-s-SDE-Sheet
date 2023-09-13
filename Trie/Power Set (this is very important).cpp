@@ -5,29 +5,29 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 	public:
-	vector<string>ans;
-	void find(string s,int idx,string temp)
-	{
-	    if(idx>=s.length())
+	    void insert(string &x, multiset<string> &temp, string s, int i)
 	    {
-	        ans.push_back(temp);
-	        return;
+	        if(i>=s.length())
+	        {
+	            temp.insert(x);
+	            return;
+	        }
+	        x+=s[i];
+	        insert(x, temp, s, i+1);
+	        x.pop_back();
+	        insert(x, temp, s, i+1);
+	        
 	    }
-	    find(s,idx+1,temp);
-	    find(s,idx+1,temp+s[idx]);
-	}
-	vector<string> AllPossibleStrings(string s){
-	    find(s,0,"");
-	    sort(ans.begin(),ans.end());
-	    vector<string> x;
-	    for(int i=0;i<ans.size();i++)
-	    {
-	        if(ans[i]=="")
-	            continue;
-	        x.push_back(ans[i]);
-	    }
-	    return x;
-	}
+		vector<string> AllPossibleStrings(string s){
+		    multiset<string> temp;
+		    string x;
+		    insert(x, temp, s, 0);
+		    vector<string> ans;
+		    temp.erase(temp.begin());
+		    for(auto it:temp)
+		        ans.push_back(it);
+		    return ans;
+		}
 };
 
 //{ Driver Code Starts.
@@ -46,4 +46,3 @@ int main(){
 	}
 	return 0;
 }
-// } Driver Code Ends
